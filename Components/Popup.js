@@ -1,7 +1,7 @@
 
 const Popup = props => {
   return (
-    <div className="bg-black h-screen fixed top-0 left-0 w-full">
+    <div className="bg-black h-full w-full fixed top-0 left-0 right-0 bottom-0 p-60">
       <div className="box">
         <span className="close-icon" onClick={props.handleClose}>x</span>
         {props.content}

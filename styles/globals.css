@@ -3,14 +3,11 @@
 @tailwind utilities;
 
 
-html,
-body {
-  padding: 0;
+*{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
 }
-
 
 a {
   color: inherit;
@@ -22,9 +19,11 @@ a {
 }
 
 
+/* Popup reference : https://www.cluemediator.com/create-simple-popup-in-reactjs */
+
 .box {
-  @apply bg-white rounded border-solid border h-auto my-0 mx-auto overflow-auto p-5 relative;
-  width: 70%;
+  @apply bg-green-200 rounded border-solid border h-auto my-0 mx-auto overflow-auto p-5 relative;
+  width: 50%;
   max-height: 70vh;
   border-color: rgba(153, 153, 153, 1);
 }
@@ -37,5 +36,39 @@ a {
   background-color: rgba(237, 237, 237, 1);
   border-radius: 50%;
   border-color: rgba(153, 153, 153, 1);
+}
+
+
+
+input:focus {
+  outline: none;
+  padding-left: 10px;
+}
+
+
+.popup-submit {
+	box-shadow:inset 0px 1px 0px 0px #a4e271;
+	background:linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+	background-color:#89c403;
+	border-radius:6px;
+	border:1px solid #74b807;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	font-weight:bold;
+	padding:8px 20px;
+  margin-top: 1rem;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #528009;
+}
+.popup-submit:hover {
+	background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+	background-color:#77a809;
+}
+.popup-submit:active {
+	position:relative;
+	top:1px;
 }
 

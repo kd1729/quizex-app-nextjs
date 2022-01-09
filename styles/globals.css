@@ -22,17 +22,16 @@ a {
 /* Popup reference : https://www.cluemediator.com/create-simple-popup-in-reactjs */
 
 .box {
-  @apply bg-green-200 rounded border-solid border h-auto my-0 mx-auto overflow-auto p-5 relative;
+  @apply bg-green-200 rounded border-solid border h-auto my-4 mx-auto overflow-auto p-5 relative;
   width: 50%;
-  max-height: 70vh;
   border-color: rgba(153, 153, 153, 1);
 }
 
 .close-icon {
   @apply border-solid border cursor-pointer h-6 text-xl leading-5 fixed text-center w-6;
   content: "x";
-  right: calc(15% - 30px);
-  top: calc(100vh - 85vh - 33px);
+  right: 27%;
+  top: 4%;
   background-color: rgba(237, 237, 237, 1);
   border-radius: 50%;
   border-color: rgba(153, 153, 153, 1);

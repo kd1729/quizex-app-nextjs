@@ -10,7 +10,7 @@ export default function Welcome({ category }) {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 px-20 pb-20">
         {category.map((c) => {
-          return <QuizCard key={c.id} id={c.id} quizCategory={c.name} />;
+          return <QuizCard key={c.id} quizID={c.id} quizCategory={c.name} />;
         })}
       </div>
     </div>

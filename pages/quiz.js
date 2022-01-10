@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import QuizQuestionCard from "../Components/quizQuestionCard";
 
 const Quiz = () => {
   const [quiz, setQuiz] = useState([]);
@@ -16,21 +17,13 @@ const Quiz = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center bg-slate-600">
-      <h1 className="text-3xl">Quiz</h1>
-      <div>
+    <div className="bg-slate-600">
+      <h1 className="text-3xl font-bold text-center text-white py-6">Quiz</h1>
+      <div className=" flex flex-col justify-center items-center">
         {quiz.map((question, index) => {
           return (
-            <div key={index} className="w-1/2 flex flex-col justify-center  items-center bg-slate-300">
-              <h2 className="text-xl">
-                {index + 1}. {question.question}
-              </h2>
-              <ul>
-                <li> {question.correct_answer}</li>
-                <li> {question.incorrect_answers[0]}</li>
-                <li> {question.incorrect_answers[1]}</li>
-                <li> {question.incorrect_answers[2]}</li>
-              </ul>
+            <div key={index} className="bg-slate-300 mb-4 p-8 w-[50%] border-8 rounded-lg">
+              <QuizQuestionCard question={question} />
             </div>
           );
         })}

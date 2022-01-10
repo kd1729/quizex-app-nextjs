@@ -15,6 +15,12 @@ const QuizQuestionCard = ({ question, questionNo }) => {
   answers.push(question.correct_answer);
   answers = shuffleArray(answers);
 
+  
+
+  
+
+
+
   return (
     <div className="w-96">
       <h2 className="text-xl font-semibold text-emerald-800 mb-4">

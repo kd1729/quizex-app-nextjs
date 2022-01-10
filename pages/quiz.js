@@ -55,6 +55,7 @@ const Quiz = () => {
             <>
               <div className="bg-slate-300 p-8 border-4 rounded-lg">
                 <QuizQuestionCard
+
                   questionNo={currentQuestion + 1}
                   question={questions[currentQuestion]}
                   state={state}

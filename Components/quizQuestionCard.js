@@ -1,22 +1,26 @@
-import React from "react";
+import React, {useEffect} from "react";
 
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-  return array;
-}
+// function shuffleArray(array) {
+//   for (let i = array.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     const temp = array[i];
+//     array[i] = array[j];
+//     array[j] = temp;
+//   }
+//   return array;
+// }
 
-const QuizQuestionCard = ({ question, questionNo }) => {
+const QuizQuestionCard = ({ question, questionNo, score }) => {
 
   const answers = [...question.incorrect_answers];
   answers.push(question.correct_answer);
-  answers = shuffleArray(answers);
+  // answers = shuffleArray(answers);
 
-  const [slectedID, setSelectedID] = React.useState(null);
+  const [selectedID, setSelectedID] = React.useState(-1);
+
+  useEffect(() => {
+    setSelectedID(-1);
+  }, [question]);
 
   const checkAnswer = (index) => {
     setSelectedID(index);
@@ -24,8 +28,12 @@ const QuizQuestionCard = ({ question, questionNo }) => {
       if (i === index) {
         if (ans === question.correct_answer) {
           console.log("correct");
+          score.current += 1;
+          console.log(score.current);
         } else {
           console.log("wrong");
+          score.current -= 1;
+          console.log(score.current);
         }
       }
     });
@@ -46,8 +54,7 @@ const QuizQuestionCard = ({ question, questionNo }) => {
               className="text-l font-semibold text-emerald-600 bg-white mb-4 p-4 w-[50%] border-4 rounded-lg cursor-pointer
                          hover:bg-blue-500 hover:text-white active:bg-blue-700"
               style={{
-                transition: "all 0.2s ease-in-out",
-                backgroundColor: slectedID === index ? "#FFF47D" : "",
+                backgroundColor: selectedID === index ? "#FFF47D" : "",
               }}
               onClick={() => {
                 checkAnswer(index);

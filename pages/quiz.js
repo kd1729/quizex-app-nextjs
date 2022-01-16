@@ -11,9 +11,10 @@ const Quiz = () => {
     currentQuestion: 0,
     isLoading: true,
     isFinished: false,
+    started: false,
   });
 
-  const { questions, currentQuestion, isLoading, isFinished } = state;
+  const { questions, currentQuestion, isLoading, isFinished, started } = state;
 
   const url =
     "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
@@ -30,85 +31,89 @@ const Quiz = () => {
     fetchQuestions();
   }, []);
 
+  if (!started) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        <h1 className="text-4xl font-semibold text-emerald-800 mb-4">Quiz</h1>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => {
+            setState({
+              ...state,
+              started: true,
+            });
+          }}
+        >
+          Start
+        </button>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="grid place-items-center">
       <h1 className="text-3xl font-bold text-center text-black py-6">Quiz</h1>
-
-      {isLoading ? (
-        <div className="spinner-border text-emerald-600" role="status">
-          <span className="sr-only">Loading...</span>
+      Time : <span id="timer">{timeLeft}</span>
+      <div>
+        <div className="bg-slate-300 p-8 border-4 rounded-lg">
+          <QuizQuestionCard
+            questionNo={currentQuestion + 1}
+            question={questions[currentQuestion]}
+            score={score}
+          />
         </div>
-      ) : (
-        <div className="flex flex-col justify-center">
-          {isFinished ? (
-            <div className="text-center">
-              <h1 className="text-xl font-bold text-center text-white py-6">
-                You scored {score.current} marks.
-              </h1>
-            </div>
-          ) : (
-            <>
-              Time : <span id="timer">{timeLeft}</span>
-              <div className="bg-slate-300 p-8 border-4 rounded-lg">
-                <QuizQuestionCard
-                  questionNo={currentQuestion + 1}
-                  question={questions[currentQuestion]}
-                  // state={state}
-                  // setState={setState}
-                  // ref={score}
-                />
-              </div>
-              <div>
-                <div className="flex justify-between mt-4">
-                  {currentQuestion !== 0 ? (
-                    <button
-                      className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
-                      onClick={() => {
-                        setState({
-                          ...state,
-                          currentQuestion: currentQuestion - 1,
-                        });
-                      }}
-                    >
-                      Previous
-                    </button>
-                  ) : (
-                    <button className="bg-transparent text-white p-4">
-                      Previous
-                    </button>
-                  )}
+        <div>
+          <div className="flex justify-between mt-4">
+            {currentQuestion !== 0 ? (
+              <button
+                className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
+                onClick={() => {
+                  setState({
+                    ...state,
+                    currentQuestion: currentQuestion - 1,
+                  });
+                }}
+              >
+                Previous
+              </button>
+            ) : (
+              <button className="bg-transparent text-white p-4">
+                Previous
+              </button>
+            )}
 
-                  {currentQuestion !== 9 ? (
-                    <button
-                      className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
-                      onClick={() => {
-                        setState({
-                          ...state,
-                          currentQuestion: currentQuestion + 1,
-                        });
-                      }}
-                    >
-                      Next
-                    </button>
-                  ) : (
-                    <button
-                      className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
-                      onClick={() => {
-                        setState({
-                          ...state,
-                          isFinished: true,
-                        });
-                      }}
-                    >
-                      Finish
-                    </button>
-                  )}
-                </div>
-              </div>
-            </>
-          )}
+            {currentQuestion !== 9 ? (
+              <button
+                className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
+                onClick={() => {
+                  setState({
+                    ...state,
+                    currentQuestion: currentQuestion + 1,
+                  });
+                }}
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
+                onClick={() => {
+                  setState({
+                    ...state,
+                    isFinished: true,
+                  });
+                }}
+              >
+                Finish
+              </button>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

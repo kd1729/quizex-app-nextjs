@@ -10,24 +10,27 @@ function shuffleArray(array) {
   return array;
 }
 
-const QuizQuestionCard = ({ question, questionNo}, ref) => {
-
-  const [clicked, setClicked] = React.useState(false);
+const QuizQuestionCard = ({ question, questionNo }) => {
 
   const answers = [...question.incorrect_answers];
   answers.push(question.correct_answer);
   answers = shuffleArray(answers);
 
+  const [slectedID, setSelectedID] = React.useState(null);
 
-
-  const checkAnswer = (answer) => {
-    setClicked(!clicked);
-    if (answer === question.correct_answer) {
-      ref.current += 4;
-    } else {
-      ref.current -= 1;
-    }
+  const checkAnswer = (index) => {
+    setSelectedID(index);
+    answers.map((ans, i) => {
+      if (i === index) {
+        if (ans === question.correct_answer) {
+          console.log("correct");
+        } else {
+          console.log("wrong");
+        }
+      }
+    });
   };
+
 
   return (
     <div className="w-96">
@@ -42,9 +45,14 @@ const QuizQuestionCard = ({ question, questionNo}, ref) => {
               key={index}
               className="text-l font-semibold text-emerald-600 bg-white mb-4 p-4 w-[50%] border-4 rounded-lg cursor-pointer
                          hover:bg-blue-500 hover:text-white active:bg-blue-700"
-              style={{ transition: "all 0.2s ease-in-out", backgroundColor: clicked ? "white" : "" }}
-              onClick={() => {checkAnswer(answer)}}
-              >
+              style={{
+                transition: "all 0.2s ease-in-out",
+                backgroundColor: slectedID === index ? "#FFF47D" : "",
+              }}
+              onClick={() => {
+                checkAnswer(index);
+              }}
+            >
               {index + 1}. {answer}
             </div>
           );
@@ -54,6 +62,4 @@ const QuizQuestionCard = ({ question, questionNo}, ref) => {
   );
 };
 
-const forwardRef = React.forwardRef(QuizQuestionCard);
-
-export default forwardRef;
+export default QuizQuestionCard;

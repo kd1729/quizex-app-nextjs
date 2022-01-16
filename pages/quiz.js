@@ -55,7 +55,7 @@ const Quiz = () => {
                   question={questions[currentQuestion]}
                   // state={state}
                   // setState={setState}
-                  ref={score}
+                  // ref={score}
                 />
               </div>
               <div>

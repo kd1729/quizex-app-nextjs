@@ -6,7 +6,7 @@ const Quiz = () => {
   const timeLeft = 10;
   const score = useRef(0);
   const correctAnswers = useRef([]);
-  const userAnswers = useRef([]);
+  const userAnswers = useRef(Array(10).fill(""));
 
   const [state, setState] = useState({
     questions: [],
@@ -40,6 +40,14 @@ const Quiz = () => {
     console.log(correctAnswers);
   }, [questions]);
 
+  const calculateScore = () => {
+    userAnswers.current.map((answer, index) => {
+      if (answer === correctAnswers.current[index]) {
+        score.current += 1;
+      }
+    });
+    return;
+  };
 
   
 
@@ -101,7 +109,6 @@ const Quiz = () => {
           <QuizQuestionCard
             questionNo={currentQuestion + 1}
             question={questions[currentQuestion]}
-            score={score}
             userAnswers={userAnswers}
           />
         </div>
@@ -141,6 +148,7 @@ const Quiz = () => {
               <button
                 className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
                 onClick={() => {
+                  calculateScore();
                   setState({
                     ...state,
                     isFinished: true,

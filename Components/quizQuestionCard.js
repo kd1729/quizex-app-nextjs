@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 // function shuffleArray(array) {
 //   for (let i = array.length - 1; i > 0; i--) {
@@ -11,8 +11,7 @@ import React, {useEffect} from "react";
 //   return array;
 // }
 
-const QuizQuestionCard =  ({question, questionNo, score, userAnswers}) => {
-
+const QuizQuestionCard = ({ question, questionNo, userAnswers }) => {
   const answers = [...question.incorrect_answers];
   answers.push(question.correct_answer);
   // answers = shuffleArray(answers);
@@ -22,25 +21,6 @@ const QuizQuestionCard =  ({question, questionNo, score, userAnswers}) => {
   useEffect(() => {
     setSelectedID(-1);
   }, [question]);
-
-  const checkAnswer = (index) => {
-    userAnswers.current.push(answers[index]);
-    console.log(userAnswers);
-    setSelectedID(index);
-    // answers.map((ans, i) => {
-    //   if (i === index) {
-    //     if (ans === question.correct_answer) {
-    //       console.log("correct");
-    //       score.current += 1;
-    //       console.log(score.current);
-    //     } else {
-    //       console.log("wrong");
-    //       score.current -= 1;
-    //       console.log(score.current);
-    //     }
-    //   }
-    // });
-  };
 
 
   return (
@@ -60,7 +40,8 @@ const QuizQuestionCard =  ({question, questionNo, score, userAnswers}) => {
                 backgroundColor: selectedID === index ? "#FFF47D" : "",
               }}
               onClick={() => {
-                checkAnswer(index);
+                userAnswers.current[questionNo - 1] = answers[index];
+                setSelectedID(index);
               }}
             >
               {index + 1}. {answer}

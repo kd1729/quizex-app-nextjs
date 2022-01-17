@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import QuizQuestionCard from "../Components/quizQuestionCard";
 
 const Quiz = () => {
-  const timeLeft = 10;
+
   const score = useRef(0);
   const correctAnswers = useRef([]);
   const userAnswers = useRef(Array(10).fill(""));
@@ -14,25 +14,40 @@ const Quiz = () => {
     isLoading: true,
     isFinished: false,
     started: false,
+    timeLeft: 10,
   });
 
-  const { questions, currentQuestion, isLoading, isFinished, started } = state;
+  const { questions, currentQuestion, isLoading, isFinished, started, timeLeft } = state;
 
   const url =
     "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
 
+
+  // making the timer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setState((prevState) => ({
+        ...prevState,
+        timeLeft: prevState.timeLeft - 1,
+      }));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [currentQuestion]);
+
+  // Fetching questions from the API and assigning it to the state
   useEffect(() => {
     const fetchQuestions = async() => {
       const response = await axios.get(url);
-      setState({
-        ...state,
+      setState((prevState) => ({
+        ...prevState,
         questions: response.data.results,
         isLoading: false,
-      });
+      }));
     }
     fetchQuestions();
   }, []);
-  
+
+  // making correct answers array
   useEffect(() => {
     questions.map((question) => {
       correctAnswers.current.push(question.correct_answer);
@@ -40,6 +55,7 @@ const Quiz = () => {
     console.log(correctAnswers);
   }, [questions]);
 
+  // Caculating the score by comparing the user answers with correct answers
   const calculateScore = () => {
     userAnswers.current.map((answer, index) => {
       if (answer === correctAnswers.current[index]) {
@@ -139,6 +155,7 @@ const Quiz = () => {
                   setState({
                     ...state,
                     currentQuestion: currentQuestion + 1,
+                    timeLeft: 10,
                   });
                 }}
               >

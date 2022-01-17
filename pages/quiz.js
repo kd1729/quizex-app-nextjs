@@ -5,6 +5,8 @@ import QuizQuestionCard from "../Components/quizQuestionCard";
 const Quiz = () => {
   const timeLeft = 10;
   const score = useRef(0);
+  const correctAnswers = useRef([]);
+  const userAnswers = useRef([]);
 
   const [state, setState] = useState({
     questions: [],
@@ -20,7 +22,7 @@ const Quiz = () => {
     "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
 
   useEffect(() => {
-    async function fetchQuestions() {
+    const fetchQuestions = async() => {
       const response = await axios.get(url);
       setState({
         ...state,
@@ -30,6 +32,17 @@ const Quiz = () => {
     }
     fetchQuestions();
   }, []);
+  
+  useEffect(() => {
+    questions.map((question) => {
+      correctAnswers.current.push(question.correct_answer);
+    });
+    console.log(correctAnswers);
+  }, [questions]);
+
+
+  
+
 
   if (isFinished) {
     return (
@@ -45,6 +58,7 @@ const Quiz = () => {
               currentQuestion: 0,
               isFinished: false,
               started: false,
+              user : userAnswers,
             });
             score.current = 0;
           }}
@@ -88,6 +102,7 @@ const Quiz = () => {
             questionNo={currentQuestion + 1}
             question={questions[currentQuestion]}
             score={score}
+            userAnswers={userAnswers}
           />
         </div>
         <div>

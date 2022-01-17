@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React, {useEffect} from "react";
 
 // function shuffleArray(array) {
@@ -10,7 +11,7 @@ import React, {useEffect} from "react";
 //   return array;
 // }
 
-const QuizQuestionCard = ({ question, questionNo, score }) => {
+const QuizQuestionCard =  ({question, questionNo, score, userAnswers}) => {
 
   const answers = [...question.incorrect_answers];
   answers.push(question.correct_answer);
@@ -23,20 +24,22 @@ const QuizQuestionCard = ({ question, questionNo, score }) => {
   }, [question]);
 
   const checkAnswer = (index) => {
+    userAnswers.current.push(answers[index]);
+    console.log(userAnswers);
     setSelectedID(index);
-    answers.map((ans, i) => {
-      if (i === index) {
-        if (ans === question.correct_answer) {
-          console.log("correct");
-          score.current += 1;
-          console.log(score.current);
-        } else {
-          console.log("wrong");
-          score.current -= 1;
-          console.log(score.current);
-        }
-      }
-    });
+    // answers.map((ans, i) => {
+    //   if (i === index) {
+    //     if (ans === question.correct_answer) {
+    //       console.log("correct");
+    //       score.current += 1;
+    //       console.log(score.current);
+    //     } else {
+    //       console.log("wrong");
+    //       score.current -= 1;
+    //       console.log(score.current);
+    //     }
+    //   }
+    // });
   };
 
 

@@ -16,6 +16,12 @@ const QuizQuestionCard = ({ question, questionNo, userAnswers }) => {
   answers.push(question.correct_answer);
   // answers = shuffleArray(answers);
 
+  function htmlToText(html) {
+    var temp = document.createElement('div');
+    temp.innerHTML = html;
+    return temp.textContent; 
+}
+
   const [selectedID, setSelectedID] = React.useState(-1);
 
   useEffect(() => {
@@ -26,7 +32,7 @@ const QuizQuestionCard = ({ question, questionNo, userAnswers }) => {
   return (
     <div className="w-96">
       <h2 className="text-xl font-semibold text-emerald-800 mb-4">
-        {questionNo}. {question.question}
+        {questionNo}. {htmlToText(question.question)}
       </h2>
 
       <div className="flex flex-col justify-center ">

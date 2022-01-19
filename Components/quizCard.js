@@ -54,7 +54,7 @@ const QuizCard = ({ quizID, quizCategory }) => {
         <Popup
           content={
             <form onSubmit={createQuiz}>
-              <b  className="text-xl text-emerald-600"> Category selected : {quizCategory}</b> <br/>
+              <b  className="text-xl text-emerald-600"> Category selected : {quizCategory}  ({quizID})</b> <br/>
               <b className="text-xl text-emerald-900">Design your Quiz</b>
               <br />
               <br />

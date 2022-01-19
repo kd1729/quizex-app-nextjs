@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import QuizQuestionCard from "../Components/quizQuestionCard";
 
 const Quiz = () => {
+  // console.log(props);
 
   const score = useRef(0);
   const correctAnswers = useRef([]);

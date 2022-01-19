@@ -37,6 +37,12 @@ const QuizCard = ({ quizID, quizCategory }) => {
       perQuestionTime,
       timeLimit,
     };
+    router.push({
+      pathname: "/quiz",
+      query: {
+        data,
+      },
+    });   
     
   }
 

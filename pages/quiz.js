@@ -18,11 +18,17 @@ const Quiz = () => {
     timeLeft: 10,
   });
 
-  const { questions, currentQuestion, isLoading, isFinished, started, timeLeft } = state;
+  const {
+    questions,
+    currentQuestion,
+    isLoading,
+    isFinished,
+    started,
+    timeLeft,
+  } = state;
 
   const url =
     "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
-
 
   // making the timer
   useEffect(() => {
@@ -37,14 +43,14 @@ const Quiz = () => {
 
   // Fetching questions from the API and assigning it to the state
   useEffect(() => {
-    const fetchQuestions = async() => {
+    const fetchQuestions = async () => {
       const response = await axios.get(url);
       setState((prevState) => ({
         ...prevState,
         questions: response.data.results,
         isLoading: false,
       }));
-    }
+    };
     fetchQuestions();
   }, []);
 
@@ -66,9 +72,6 @@ const Quiz = () => {
     return;
   };
 
-  
-
-
   if (isFinished) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
@@ -83,7 +86,7 @@ const Quiz = () => {
               currentQuestion: 0,
               isFinished: false,
               started: false,
-              user : userAnswers,
+              user: userAnswers,
             });
             score.current = 0;
           }}
@@ -120,7 +123,9 @@ const Quiz = () => {
   return (
     <div className="grid place-items-center">
       <h1 className="text-3xl font-bold text-center text-black py-6">Quiz</h1>
-      Time : <span id="timer">{timeLeft}</span>
+      <div className="bg-emerald-500 text-white px-4 py-2 my-8 text-3xl font-bold rounded-md">
+        Time Left :<span id="timer"> {timeLeft} </span>
+      </div>
       <div>
         <div className="bg-slate-300 p-8 border-4 rounded-lg">
           <QuizQuestionCard

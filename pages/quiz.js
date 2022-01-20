@@ -7,7 +7,7 @@ const Quiz = () => {
 
   const score = useRef(0);
   const correctAnswers = useRef([]);
-  const userAnswers = useRef(Array(10).fill(""));
+  const userAnswers = useRef(Array(5).fill(""));
 
   const [state, setState] = useState({
     questions: [],
@@ -15,7 +15,7 @@ const Quiz = () => {
     isLoading: true,
     isFinished: false,
     started: false,
-    timeLeft: 10,
+    timeLeft: 3,
   });
 
   const {
@@ -28,7 +28,7 @@ const Quiz = () => {
   } = state;
 
   const url =
-    "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
+    "https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple";
 
   // making the timer
   useEffect(() => {
@@ -40,8 +40,20 @@ const Quiz = () => {
           timeLeft: prevState.timeLeft - 1,
         }));
       }, 1000);
+    } else if(currentQuestion < 4){
+      clearInterval(interval);
+      setState((prevState) => ({
+        ...prevState,
+        currentQuestion: prevState.currentQuestion + 1,
+        timeLeft: 3,
+      }));  
     } else {
       clearInterval(interval);
+      calculateScore();
+      setState((prevState) => ({
+        ...prevState,
+        isFinished: true,
+      }));
     }
     return () => clearInterval(interval);
   }, [currentQuestion, timeLeft]);
@@ -72,6 +84,9 @@ const Quiz = () => {
     userAnswers.current.map((answer, index) => {
       if (answer === correctAnswers.current[index]) {
         score.current += 1;
+      }
+      else {
+        score.current += -1;
       }
     });
     return;

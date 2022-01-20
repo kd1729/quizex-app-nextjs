@@ -32,14 +32,19 @@ const Quiz = () => {
 
   // making the timer
   useEffect(() => {
-    const interval = setInterval(() => {
-      setState((prevState) => ({
-        ...prevState,
-        timeLeft: prevState.timeLeft - 1,
-      }));
-    }, 1000);
+    const interval = null;
+    if (timeLeft > 0) {
+      interval = setInterval(() => {
+        setState((prevState) => ({
+          ...prevState,
+          timeLeft: prevState.timeLeft - 1,
+        }));
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
     return () => clearInterval(interval);
-  }, [currentQuestion]);
+  }, [currentQuestion, timeLeft]);
 
   // Fetching questions from the API and assigning it to the state
   useEffect(() => {

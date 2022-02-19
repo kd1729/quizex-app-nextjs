@@ -3,29 +3,29 @@ import Link from "next/link";
 
 const Home = () => {
   return (
-    <div className="text-center">
+    <div className="text-center bg-slate-100 w-1/2 mx-auto">
       <h1 className="text-4xl font-bold py-1 my-8">Welcome to the Quiz App</h1>
       <p className="text-2xl">
         This is a quiz app that will help you learn about the world.
       </p>
-      <h2>Please login or signup to continue....</h2>
-      <p>
-        <Link href="/login">
+
+      <p className="text-3xl">
+        <Link href="/loginAdmin">
           <a
             className="text-blue-500"
             rel="noopener noreferrer"
           >
-            Login
+            Admin Login
           </a>
         </Link>
       </p>
-      <p>
-      <Link href="/signup">
+      <p className="text-3xl">
+      <Link href="/loginStudent">
           <a
             className="text-blue-500"
             rel="noopener noreferrer"
           >
-            Signup
+           Student Login
           </a>
         </Link>
       </p>

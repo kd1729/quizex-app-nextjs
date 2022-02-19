@@ -1,10 +1,10 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-const Login = () => {
+const LoginStudent = () => {
   const router = useRouter();
   const redirectWelcome = () => {
-    router.push("/welcome");
+    router.push("/quiz");
   };
 
   return (
@@ -13,9 +13,9 @@ const Login = () => {
         <div className="md:flex">
           <div className="w-full p-3 px-6 py-10">
             <div className="text-center">
-              <span className="text-xl text-gray-700">Registration Form</span>
+              <span className="text-4xl text-gray-700">Student Login</span>
             </div>
-            <div className="mt-3 relative">
+            <div className="mt-8 relative">
               <span className="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">
                 Username or Email
               </span>
@@ -50,4 +50,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginStudent;

@@ -1,11 +1,19 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { useSession, signIn, signOut } from "next-auth/react"
 
 const LoginAdmin = () => {
   const router = useRouter();
   const redirectWelcome = () => {
+    signIn();
     router.push("/welcome");
   };
+
+  const { data: session } = useSession();
+
+  if(session) {
+    return <button onClick={signOut}>Sign out</button>;
+  }
 
   return (
     <div className="py-20 h-screen bg-gray-300 px-2">

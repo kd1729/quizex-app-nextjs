@@ -1,12 +1,18 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react"
+import Image from "next/image";
+
 
 const LoginAdmin = () => {
   const router = useRouter();
   const redirectWelcome = () => {
     signIn();
     router.push("/welcome");
+  };
+
+  const myLoader = ({ src }) => {
+    return `https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg`;
   };
 
   const { data: session } = useSession();
@@ -52,6 +58,20 @@ const LoginAdmin = () => {
               </button>
             </div>
           </div>
+        </div>
+        <div className="google-btn">
+          <div className="google-icon-wrapper">
+            <Image
+              loader={myLoader}
+              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+              alt="google button"
+              height={35}
+              width={35}
+            />
+          </div>
+          <p className="btn-text">
+            <b>Sign in with google</b>
+          </p>
         </div>
       </div>
     </div>

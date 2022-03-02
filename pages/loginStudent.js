@@ -1,10 +1,15 @@
 import React from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 const LoginStudent = () => {
   const router = useRouter();
   const redirectWelcome = () => {
     router.push("/quiz");
+  };
+
+  const myLoader = ({ src }) => {
+    return `https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg`;
   };
 
   return (
@@ -24,8 +29,7 @@ const LoginStudent = () => {
                 className="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"
               />
             </div>
-            
-            
+
             <div className="mt-4 relative">
               <span className="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">
                 Password
@@ -44,6 +48,20 @@ const LoginStudent = () => {
               </button>
             </div>
           </div>
+        </div>
+        <div className="google-btn">
+          <div className="google-icon-wrapper">
+            <Image
+              loader={myLoader}
+              src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+              alt="google button"
+              height={35}
+              width={35}
+            />
+          </div>
+          <p className="btn-text">
+            <b>Sign in with google</b>
+          </p>
         </div>
       </div>
     </div>

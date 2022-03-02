@@ -1,5 +1,7 @@
 import { SessionProvider } from "next-auth/react"
 import '../styles/globals.css'
+import '../styles/googleSignin.css';
+
 
 export default function App({
   Component,

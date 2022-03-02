@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useSession, signIn, signOut } from "next-auth/react";
+import Link from "next/link";
 
 const LoginStudent = () => {
   const router = useRouter();
@@ -11,6 +13,27 @@ const LoginStudent = () => {
   const myLoader = ({ src }) => {
     return `https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg`;
   };
+
+  const { data: session } = useSession();
+
+  if (session) {
+    return (
+      <div className="grid place-items-center h-48 mt-48">
+        <div className="text-3xl font-semibold">Signed in as <span className="text-3xl text-sky-600"> {session.user.email}</span></div>
+        <Link href="/quiz" passHref>
+          <div className="bg-green-500 text-2xl py-2 px-4 text-white font-bold rounded-lg cursor-pointer hover:bg-green-700">
+            Take the Quiz
+          </div>
+        </Link>
+        <button
+          className="bg-red-500 text-2xl py-2 px-4 text-white font-bold rounded-lg cursor-pointer hover:bg-red-700"
+          onClick={signOut}
+        >
+          Sign Out
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="py-20 h-screen bg-gray-300 px-2">
@@ -49,7 +72,7 @@ const LoginStudent = () => {
             </div>
           </div>
         </div>
-        <div className="google-btn">
+        <div className="google-btn" onClick={() => signIn()}>
           <div className="google-icon-wrapper">
             <Image
               loader={myLoader}

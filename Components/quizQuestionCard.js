@@ -30,8 +30,8 @@ const QuizQuestionCard = ({ question, questionNo, userAnswers }) => {
 
 
   return (
-    <div className="w-96">
-      <h2 className="text-xl font-semibold text-emerald-800 mb-4">
+    <div>
+      <h2 className="text-2xl font-semibold text-emerald-800 mb-4">
         {questionNo}. {htmlToText(question.question)}
       </h2>
 
@@ -40,7 +40,7 @@ const QuizQuestionCard = ({ question, questionNo, userAnswers }) => {
           return (
             <div
               key={index}
-              className="text-l font-semibold text-emerald-600 bg-white mb-4 p-4 w-[50%] border-4 rounded-lg cursor-pointer
+              className="text-xl font-semibold text-emerald-600 bg-white mb-4 p-4 w-[50%] border-4 rounded-lg cursor-pointer
                          hover:bg-blue-500 hover:text-white active:bg-blue-700"
               style={{
                 backgroundColor: selectedID === index ? "#FFF47D" : "",
@@ -50,7 +50,7 @@ const QuizQuestionCard = ({ question, questionNo, userAnswers }) => {
                 setSelectedID(index);
               }}
             >
-              {index + 1}. {answer}
+              {index + 1}. {htmlToText(answer)}
             </div>
           );
         })}

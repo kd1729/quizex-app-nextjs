@@ -35,6 +35,7 @@ const Quiz = () => {
 
   // making the timer
   useEffect(() => {
+    if(!started) return;
     const interval = null;
     if (timeLeft > 0) {
       interval = setInterval(() => {
@@ -43,7 +44,7 @@ const Quiz = () => {
           timeLeft: prevState.timeLeft - 1,
         }));
       }, 1000);
-    } else if (currentQuestion < 4) {
+    } else if (currentQuestion < 9) {
       clearInterval(interval);
       setState((prevState) => ({
         ...prevState,
@@ -59,7 +60,7 @@ const Quiz = () => {
       }));
     }
     return () => clearInterval(interval);
-  }, [currentQuestion, timeLeft]);
+  }, [currentQuestion, timeLeft, started]);
 
   // Fetching questions from the API and assigning it to the state
   useEffect(() => {
@@ -106,7 +107,8 @@ const Quiz = () => {
         <h1 className="text-4xl font-semibold text-emerald-800">
           You scored {score.current} out of {questions.length}
         </h1>
-        <button
+        {/* Uncomment the below section to have a option of restarting the quiz */}
+        {/* <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => {
             setState({
@@ -120,9 +122,9 @@ const Quiz = () => {
           }}
         >
           Restart
-        </button>
+        </button> */}
         <button
-          className="bg-red-500 text-2xl py-2 px-4 text-white font-bold rounded-lg cursor-pointer hover:bg-red-700"
+          className="bg-red-500 text-2xl py-2 px-4 mt-8 text-white font-bold rounded-lg cursor-pointer hover:bg-red-700"
           onClick={signOut}
         >
           Sign Out
@@ -139,7 +141,7 @@ const Quiz = () => {
           <span className="text-3xl text-sky-600"> {session.user.email}</span>
         </div>
         <button
-          className="bg-red-500 text-2xl py-2 px-4 text-white font-bold rounded-lg cursor-pointer hover:bg-red-700"
+          className="bg-red-500 text-2xl py-2 px-4 mb-8 text-white font-bold rounded-lg cursor-pointer hover:bg-red-700"
           onClick={signOut}
         >
           Sign Out
@@ -162,12 +164,12 @@ const Quiz = () => {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <h1>Loading...</h1>;
   }
 
   return (
     <div className="grid place-items-center">
-      <div className="text-3xl font-semibold">
+      <div className="text-3xl font-semibold mt-8">
         Signed in as
         <span className="text-3xl text-sky-600"> {session.user.email}</span>
       </div>
@@ -186,10 +188,12 @@ const Quiz = () => {
         </div>
         <div>
           <div className="flex justify-between mt-4">
-            {currentQuestion !== 0 ? (
+            
               <button
-                className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
-                onClick={() => {
+                className="bg-lime-600 p-4 border-4 rounded-lg hover:bg-lime-800 text-white font-semibold"
+                disabled = {currentQuestion === 0 ?  true : false}
+                style={{ cursor : currentQuestion === 0 ?  'not-allowed' : 'pointer'}}
+                onClick={() => { 
                   setState({
                     ...state,
                     currentQuestion: currentQuestion - 1,
@@ -198,15 +202,10 @@ const Quiz = () => {
               >
                 Previous
               </button>
-            ) : (
-              <button className="bg-transparent text-white p-4">
-                Previous
-              </button>
-            )}
-
+            
             {currentQuestion !== 9 ? (
               <button
-                className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
+                className="bg-lime-600 p-4 border-4 rounded-lg hover:bg-lime-800  font-semibold text-white"
                 onClick={() => {
                   setState({
                     ...state,
@@ -219,8 +218,8 @@ const Quiz = () => {
               </button>
             ) : (
               <button
-                className="bg-slate-300 p-4 border-4 rounded-lg hover:bg-slate-500 hover:text-white"
-                onClick={() => {
+                className="bg-lime-600 p-4 border-4 rounded-lg hover:bg-lime-800 text-white font-semibold"
+                onClick={() => { 
                   calculateScore();
                   setState({
                     ...state,

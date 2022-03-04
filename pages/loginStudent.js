@@ -1,14 +1,17 @@
-import React from "react";
+import { React, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
 const LoginStudent = () => {
-  const router = useRouter();
-  const redirectWelcome = () => {
-    router.push("/quiz");
-  };
+  // const router = useRouter();
+  // const redirectWelcome = () => {
+  //   router.push("/quiz");
+  // };
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const myLoader = ({ src }) => {
     return `https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg`;
@@ -45,11 +48,13 @@ const LoginStudent = () => {
             </div>
             <div className="mt-8 relative">
               <span className="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">
-                Username or Email
+                Email
               </span>
               <input
                 type="text"
                 className="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </div>
 
@@ -60,19 +65,21 @@ const LoginStudent = () => {
               <input
                 type="text"
                 className="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
             </div>
             <div className="mt-4">
               <button
                 className="h-12 w-full bg-red-600 text-white rounded hover:bg-red-700"
-                onClick={redirectWelcome}
+                onClick={()=>signIn("email", { email, password })}
               >
                 Click here to proceed
               </button>
             </div>
           </div>
         </div>
-        <div className="google-btn" onClick={() => signIn()}>
+        <div className="google-btn" onClick={() => signIn("google")}>
           <div className="google-icon-wrapper">
             <Image
               loader={myLoader}
@@ -80,6 +87,7 @@ const LoginStudent = () => {
               alt="google button"
               height={35}
               width={35}
+              unoptimized={false}
             />
           </div>
           <p className="btn-text">

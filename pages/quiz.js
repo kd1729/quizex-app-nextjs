@@ -1,13 +1,16 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import QuizQuestionCard from "../Components/quizQuestionCard";
+import { useSession, signIn, signOut } from "next-auth/react";
+import LoginStudent from "./loginStudent";
 
 const Quiz = () => {
   // console.log(props);
+  const { data: session } = useSession();
 
   const score = useRef(0);
   const correctAnswers = useRef([]);
-  const userAnswers = useRef(Array(5).fill(""));
+  const userAnswers = useRef(Array(10).fill(""));
 
   const [state, setState] = useState({
     questions: [],
@@ -15,7 +18,7 @@ const Quiz = () => {
     isLoading: true,
     isFinished: false,
     started: false,
-    timeLeft: 3,
+    timeLeft: 10,
   });
 
   const {
@@ -28,7 +31,7 @@ const Quiz = () => {
   } = state;
 
   const url =
-    "https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple";
+    "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple";
 
   // making the timer
   useEffect(() => {
@@ -40,13 +43,13 @@ const Quiz = () => {
           timeLeft: prevState.timeLeft - 1,
         }));
       }, 1000);
-    } else if(currentQuestion < 4){
+    } else if (currentQuestion < 4) {
       clearInterval(interval);
       setState((prevState) => ({
         ...prevState,
         currentQuestion: prevState.currentQuestion + 1,
-        timeLeft: 3,
-      }));  
+        timeLeft: 10,
+      }));
     } else {
       clearInterval(interval);
       calculateScore();
@@ -82,15 +85,20 @@ const Quiz = () => {
   // Caculating the score by comparing the user answers with correct answers
   const calculateScore = () => {
     userAnswers.current.map((answer, index) => {
-      if (answer === correctAnswers.current[index]) {
+      if (answer === "") {
+        score.current += 0;
+      } else if (answer === correctAnswers.current[index]) {
         score.current += 1;
-      }
-      else {
+      } else {
         score.current += -1;
       }
     });
     return;
   };
+
+  if (!session) {
+    return <LoginStudent />;
+  }
 
   if (isFinished) {
     return (
@@ -113,6 +121,12 @@ const Quiz = () => {
         >
           Restart
         </button>
+        <button
+          className="bg-red-500 text-2xl py-2 px-4 text-white font-bold rounded-lg cursor-pointer hover:bg-red-700"
+          onClick={signOut}
+        >
+          Sign Out
+        </button>
       </div>
     );
   }
@@ -120,6 +134,17 @@ const Quiz = () => {
   if (!started) {
     return (
       <div className="flex flex-col justify-center items-center h-screen">
+        <div className="text-3xl font-semibold">
+          Signed in as
+          <span className="text-3xl text-sky-600"> {session.user.email}</span>
+        </div>
+        <button
+          className="bg-red-500 text-2xl py-2 px-4 text-white font-bold rounded-lg cursor-pointer hover:bg-red-700"
+          onClick={signOut}
+        >
+          Sign Out
+        </button>
+
         <h1 className="text-4xl font-semibold text-emerald-800 mb-4">Quiz</h1>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -142,6 +167,11 @@ const Quiz = () => {
 
   return (
     <div className="grid place-items-center">
+      <div className="text-3xl font-semibold">
+        Signed in as
+        <span className="text-3xl text-sky-600"> {session.user.email}</span>
+      </div>
+
       <h1 className="text-3xl font-bold text-center text-black py-6">Quiz</h1>
       <div className="bg-emerald-500 text-white px-4 py-2 my-8 text-3xl font-bold rounded-md">
         Time Left :<span id="timer"> {timeLeft} </span>

@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
+import GithubProvider from "next-auth/providers/github";
 import { PrismaClient } from "@prisma/client";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 const prisma = new PrismaClient();
@@ -13,11 +14,10 @@ export default NextAuth({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
-    //   EmailProvider({
-    //     server: process.env.EMAIL_SERVER,
-    //     from: process.env.EMAIL_FROM,
-    //   }),
-    // ],
+    GithubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
     EmailProvider({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
@@ -35,6 +35,6 @@ export default NextAuth({
 
   session: {
     jwt: true,
-    maxAge: 15 * 24 * 60 * 60,
+    maxAge: 120,
   },
 });

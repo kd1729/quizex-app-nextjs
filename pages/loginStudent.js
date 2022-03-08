@@ -11,7 +11,6 @@ const LoginStudent = () => {
   // };
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const myLoader = ({ src }) => {
     return `https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg`;
@@ -22,7 +21,10 @@ const LoginStudent = () => {
   if (session) {
     return (
       <div className="grid place-items-center h-48 mt-48">
-        <div className="text-3xl font-semibold">Signed in as <span className="text-3xl text-sky-600"> {session.user.email}</span></div>
+        <div className="text-3xl font-semibold">
+          Signed in as{" "}
+          <span className="text-3xl text-sky-600"> {session.user.email}</span>
+        </div>
         <Link href="/quiz" passHref>
           <div className="bg-green-500 text-2xl py-2 px-4 text-white font-bold rounded-lg cursor-pointer hover:bg-green-700">
             Take the Quiz
@@ -58,21 +60,10 @@ const LoginStudent = () => {
               />
             </div>
 
-            <div className="mt-4 relative">
-              <span className="absolute p-1 bottom-8 ml-2 bg-white text-gray-400 ">
-                Password
-              </span>
-              <input
-                type="text"
-                className="h-12 px-2 w-full border-2 rounded focus:outline-none focus:border-red-600"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              />
-            </div>
             <div className="mt-4">
               <button
                 className="h-12 w-full bg-red-600 text-white rounded hover:bg-red-700"
-                onClick={()=>signIn("email", { email, password })}
+                onClick={() => signIn({ email, email: email })}
               >
                 Click here to proceed
               </button>
@@ -94,6 +85,15 @@ const LoginStudent = () => {
             <b>Sign in with google</b>
           </p>
         </div>
+
+        <div
+          className="text-2xl text-emerald-700 cursor-pointer font-bold text-center my-4"
+          onClick={() => signIn("github")}
+        >
+          Sign in with Github
+        </div>
+
+        <div onClick={() => signOut()}>signOut</div>
       </div>
     </div>
   );
